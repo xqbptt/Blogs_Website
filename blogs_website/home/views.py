@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from home.models import Bookmark
 from home.Scraper import scraper
+from taggit.managers import TaggableManager
 # Create your views here.
 
 def index(request):
@@ -11,8 +12,10 @@ def index(request):
     if request.method == 'POST':
         url_field = request.POST.get('url')
         scrap = scraper(url_field)
-        context = Bookmark(url_field=url_field, user = request.user, title_name = scrap.title, description=scrap.description , image_field=scrap.imgsrc)
-        context.save()
+        bookmark = Bookmark.objects.create(url_field=url_field, user = request.user, title_name = scrap.title, description=scrap.description , image_field=scrap.imgsrc)
+        for tag in scrap.tags:
+            bookmark.tags.add(tag)
+        bookmark.save()
     return render(request, 'base.html',context1)
 
 
