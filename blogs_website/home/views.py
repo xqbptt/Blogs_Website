@@ -12,7 +12,8 @@ def index(request):
     if request.method == 'POST':
         url_field = request.POST.get('url')
         scrap = scraper(url_field)
-        bookmark = Bookmark.objects.create(url_field=url_field, user = request.user, title_name = scrap.title, description=scrap.description , image_field=scrap.imgsrc)
+        bookmark = Bookmark.objects.create(url_field=url_field, title_name = scrap.title, description=scrap.description , image_field=scrap.imgsrc)
+        user = request.user
         for tag in scrap.tags:
             bookmark.tags.add(tag)
         bookmark.save()
