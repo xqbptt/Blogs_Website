@@ -8,8 +8,10 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <script src="/static/js/tagsinut.js"></script>
-    <title>Hello </title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <!--<script src="/static/js/tagsinut.js"></script>-->
+    <script defer src="{% static 'script.js' %}"></script>
+    <title>Blog Website </title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -45,19 +47,34 @@
       </nav>
   
       {% for bookmark in allBookmarks %}
-      
-    <div class="row" style="display: flex; align-self: center; justify-content: center;">
+      <!--style="display: flex; align-self: center; justify-content: center;"-->
+    <div class="row-md-4" style="display: flex; align-self: center; justify-content: center;">
       <div class="col-md-4" >
         <div class="card">
            <div class = "card-body">
             <a href = "{{bookmark.url_field}}" target = "_blank">
-            <div class="container"><img src="{{bookmark.image_field}}"></img> </div>
-            <h5 class="card-title" style="text-overflow: ellipsis">{{bookmark.title_name}}</h5></a>
-            <p class="card-text" style="text-overflow: ellipsis">{{bookmark.description}}</p>
+            <div class="container"><img src="{{bookmark.image_field}}"style = "width:400px;height:300px;margin:10px"></img> </div>
+            <h5 class="card-title" style="text-overflow: ellipsis;overflow: hidden;display: -webkit-box;-webkit-line-clamp: 2;">{{bookmark.title_name}}</h5></a>
+            <p class="card-text" style="text-overflow: ellipsis;overflow: hidden;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;">{{bookmark.description}}</p>
             <p>{{bookmark.date}} </p>
             {% for tag in bookmark.tags.all %}
-               <a href="#" class="mr-1 badge badge-info" style="background-color: #000000">#{{ tag }}
+              <button data-tag-target="#tag"class="btn-change"style="-webkit-transition: all 0.5s ease-in-out;float: left;box-shadow: 0 0 1px #ccc;margin: 5px;border: 0px;color: #fff;background: lightseagreen;">
+                
+              #{{ tag }}
+              </button>
+              <div class="tag" id="tag">
+                <div class ="header">
+                    <div class="title">EXPLORE AND SAVE</div>
+                    <button data-close-button class="close-button">&times;</button>
+                </div>
+                <div class = "body">
+                  <button class="btn btn-success">Add to Saved tags</button><br><br>
+                  <button class="btn btn-primary">Discover related content</button>
+                </div>
+
+              </div>
             {% endfor %}
+            
            </div>
           </a>
         </div>
@@ -66,6 +83,7 @@
     </div>
   </div>
     {% endfor %}
+    <div id="overlay"></div>
       
     
 
