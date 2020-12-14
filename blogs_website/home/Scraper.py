@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import json
 API_KEY = "CTtOMH2zx2XyOVipNl6qmdSLPJV7oRWq"
+API_KEY2 = "f8e6fd8e886541e783d160dc60faf44e"
 
 header_content = {'Content-Type': 'text/raw',
 'x-ag-access-token': API_KEY,
@@ -47,5 +48,19 @@ class scraper:
         self.description = self.description.replace("\n", "")
         self.tags = tag_content(self.description)
         
+    def __str__(self):
+        return "Title: " + self.title + "\nDescription: " + self.description + "\nimage: " + self.imgsrc
+
+
+class discoverScraper:
+    def __init__(self, article):
+        self.URL = article['url']
+        try:   
+            self.imgsrc = article['urltoimage']
+        except:
+            self.imgsrc = "https://revenuearchitects.com/wp-content/uploads/2017/02/Blog_pic-450x255.png"
+        self.title = article['title']
+        self.description = article['description']
+        self.tags = tag_content(self.description)
     def __str__(self):
         return "Title: " + self.title + "\nDescription: " + self.description + "\nimage: " + self.imgsrc
