@@ -1,5 +1,6 @@
 <!doctype html>
 {% load static %}
+{% load socialaccount %}
 <html lang="en">
 
 <head>
@@ -46,9 +47,22 @@
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+          {% if user.is_authenticated %}
+
+            <li><a href="{% url 'accounts:logout' %}">LogOut</a></li>
+
+          {% else %}
+            <li><a href="{% provider_login_url 'google' %}">Login with Google</a></li>
+            <li><a href="{% url 'accounts:login' %}">LogIn</a></li>
+            <li><a href="{% url 'accounts:signup' %}">SignUp</a></li>
+          {% endif %}
       </div>
     </div>
   </nav>
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
 
   {% for bookmark in allBookmarks %}
   <!--style="display: flex; align-self: center; justify-content: center;"-->
