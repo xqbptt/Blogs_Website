@@ -64,3 +64,31 @@ class discoverScraper:
         self.tags = tag_content(self.description)
     def __str__(self):
         return "Title: " + self.title + "\nDescription: " + self.description + "\nimage: " + self.imgsrc
+#    i=0
+    # for bookmark in allBookmarks:
+    #     if(i>10):
+    #         break
+    #     i=i+1
+    #     j=0
+    #     for tag in bookmark.tags.all():
+    #         if(j>1):
+    #             break
+    #         j=j+1
+    #         tag = str(tag)
+    #         url = ('http://newsapi.org/v2/everything?'
+    #                 'q='+ tag +'&'
+    #                 'from=2020-12-14&'
+    #                 'sortBy=popularity&'
+    #                 'apiKey=f8e6fd8e886541e783d160dc60faf44e')
+    #         response = requests.get(url)
+    #         tag_json = response.json()
+    #         k=0
+    #         for article in tag_json['articles']:
+    #             if(k>20):
+    #                 break
+    #             scrap = discoverScraper(article)
+    #             bookmark =  DiscoverBookmark.objects.create(url_field=scrap.URL, title_name = scrap.title, description=scrap.description , image_field=scrap.imgsrc)
+    #             user = request.user
+    #             for tag in scrap.tags:
+    #                 bookmark.tags.add(tag)
+    #             bookmark.save()

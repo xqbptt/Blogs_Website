@@ -22,8 +22,11 @@ class DiscoverBookmark(models.Model):
     image_field = models.URLField(default="none",max_length = 1000)
     tags = TaggableManager()
 
-    
-
+class Timeline(models.Model):
+    name = models.CharField(default="No Title",max_length = 264)
+    date_started = models.DateTimeField(default = timezone.now)
+    bookmarks = models.ManyToManyField(Bookmark)
+    user = models.ForeignKey(User,on_delete=models.SET_NULL, null=True)  
 
 
 

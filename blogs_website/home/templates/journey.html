@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'journey.css' %}">
+</head>
+<body>
+    <div id="timeline-content">
+        <h1>Timeline</h1>
+        <ul class="timeline">
+          {% for bookmark in allBookmarks %}
+          <li class="event" data-date={{bookmark.date}}>
+            <h3>{{ bookmark.title_name}}</h3>
+            <p style="text-overflow: ellipsis;overflow: hidden;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;">{{bookmark.description}}</p>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+</body>
+</html>
