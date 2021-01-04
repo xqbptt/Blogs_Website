@@ -37,7 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'home.apps.HomeConfig'
+=======
+    'home.apps.HomeConfig',
+    'taggit',
+    'accounts',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'bootstrap3',
+>>>>>>> 500be938e643384534ec23761b5b43a348f7d765
 ]
 
 MIDDLEWARE = [
@@ -123,3 +135,18 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "home/static"),
 
 ]
+<<<<<<< HEAD
+=======
+
+AUTHENTICATION_BACKENDS = [
+  
+    'django.contrib.auth.backends.ModelBackend',
+
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'thanks'
+>>>>>>> 500be938e643384534ec23761b5b43a348f7d765
