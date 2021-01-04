@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block content %}
+<center>
+  <h1>All Journeys</h1>
+  {% for timeline in allTimelines %}
+  <br><br><b><br></b>
+  <ul>
+      <li><a href="./journey/{{timeline.name}}">{{timeline.name}}</a></li>
+  </ul>
+  {% endfor %}
+  <h4>Start a new journey</h4>
+</center>
+{% endblock %}

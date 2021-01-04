@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'static/css/master.css' %}">
+{% endblock %}
+
+{% block content %}
+  <h1>Sign up</h1>
+  <form method="post">
+    {% csrf_token %}
+
+    {% bootstrap_form form %}
+     <input type="submit" class = "btn btn-default" value="SignUp">
+
+  </form>
+
+
+
+
+
+{% endblock %}
