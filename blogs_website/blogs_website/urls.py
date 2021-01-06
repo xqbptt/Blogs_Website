@@ -21,12 +21,9 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
-<<<<<<< HEAD
-=======
     path('accounts/', include('allauth.urls')),
     path('test/', views.TestPage.as_view(), name = 'test'),
     path('thanks/', views.ThanksPage.as_view(), name = 'thanks'),
     path('accounts/', include('accounts.urls', namespace = 'accounts')),
     path('accounts/' ,include('django.contrib.auth.urls')),
->>>>>>> 500be938e643384534ec23761b5b43a348f7d765
 ]

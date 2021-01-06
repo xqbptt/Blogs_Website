@@ -37,9 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-    'home.apps.HomeConfig'
-=======
     'home.apps.HomeConfig',
     'taggit',
     'accounts',
@@ -49,7 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'bootstrap3',
->>>>>>> 500be938e643384534ec23761b5b43a348f7d765
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -135,8 +132,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "home/static"),
 
 ]
-<<<<<<< HEAD
-=======
 
 AUTHENTICATION_BACKENDS = [
   
@@ -147,6 +142,5 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/blog'
 LOGOUT_REDIRECT_URL = 'thanks'
->>>>>>> 500be938e643384534ec23761b5b43a348f7d765
