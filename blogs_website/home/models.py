@@ -31,4 +31,3 @@ class Timeline(models.Model):
 
 
 
-

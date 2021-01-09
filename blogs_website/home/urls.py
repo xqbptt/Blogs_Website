@@ -1,7 +1,10 @@
 from . import views
-from django.urls import path
+from django.urls import path,include
 from home.models import Bookmark
+from rest_framework.routers import DefaultRouter
 
+router = DefaultRouter()
+router.register('bookmark',views.BookmarkViewSet,basename='bookmark')
 urlpatterns = [
     path('', views.index),
     # path('', views.base),
@@ -14,8 +17,16 @@ urlpatterns = [
     path('journey/<name>', views.timeline, name='timeline'),
     path('addjourney/<int:bookmark_id>', views.addJourney),
     path('addtoexisting/<int:bookmark_id>/<int:timeline_id>', views.addtoexisting),
-    path('api/bookmarks/', views.bookmark_list),
-    path('api/timelines/', views.timeline_list),
-    path('api/bookmark/<int:pk>', views.bookmark_detail),
-    path('api/timeline/<int:pk>', views.timeline_detail),
+    #path('bookmarks/', views.bookmark_list),
+    path('bookmarks/', views.BookmarkAPIView.as_view()),
+    #path('bookmarks/<int:pk>/', views.bookmark_detail),
+    path('bookmarks/<int:pk>/', views.BookmarkDetail.as_view()),
+    path('generic/bookmarks/<int:pk>/', views.GenericAPIView.as_view()),
+    path('generic/bookmarks/', views.GenericAPIView.as_view()),
+    path('viewset/',include(router.urls)),
+    path('viewset/<int:pk>',include(router.urls)),
+    path('timelines/', views.TimelineAPIView.as_view()),
+    path('timelines/<int:pk>/', views.TimelineDetail.as_view()),
+
+
 ]
