@@ -12,6 +12,9 @@ urlpatterns = [
     path('bookmarks', bookmark_list, name = 'bookmark'),
     path('bookmarkApi/', views.BookmarkAPIView.as_view()),
     path('bookmarkApi/<int:pk>/', views.BookmarkDetail.as_view()),
+    path('discoverbookmarks', discoverbookmark_list, name = 'discoverbookmark'),
+    path('discoverbookmarkApi/', views.DiscoverBookmarkAPIView.as_view()),
+    path('discoverbookmarkApi/<int:pk>/', views.DiscoverBookmarkDetail.as_view()),
     path('delete/<post_id>',views.delete_post,name='delete'),
     
 ]

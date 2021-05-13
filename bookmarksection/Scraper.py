@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import json
-API_KEY = "CTtOMH2zx2XyOVipNl6qmdSLPJV7oRWq"
+API_KEY = "KvFpSUoY5wKQr9S2HZ1HKGGfK1sDEqIQ"
 API_KEY2 = "f8e6fd8e886541e783d160dc60faf44e"
 
 header_content = {'Content-Type': 'text/raw',

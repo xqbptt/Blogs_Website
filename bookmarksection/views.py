@@ -34,7 +34,6 @@ def bookmark_list(request):
     if request.method == 'POST':
         url_field = request.POST.get('url')
             
-        
         scrap = scraper(url_field)
         try:
             bookmark = Bookmark.objects.create(url_field=url_field, title_name = scrap.title, description=scrap.description , image_field=scrap.imgsrc)
@@ -46,8 +45,48 @@ def bookmark_list(request):
         for tag in scrap.tags:
             bookmark.tags.add(tag)
         bookmark.save()
+
+        DiscoverBookmark.objects.all().delete()
+        j=0
+        for tag in bookmark.tags.most_common():
+            if(j>2):
+                 break
+            j=j+1
+            tag = str(tag)
+            url = ('http://newsapi.org/v2/everything?'
+                 'q='+ tag +'&'
+                 'from=2021-5-10&'
+                 'sortBy=popularity&'
+                  'apiKey=f8e6fd8e886541e783d160dc60faf44e')
+            response = requests.get(url)
+            tag_json = response.json()
+            k=0
+            for article in tag_json['articles']:
+                if(k>5):
+                    break
+                scrap = discoverScraper(article)
+                discoverbookmark =  DiscoverBookmark.objects.create(url_field=scrap.URL, title_name = scrap.title, description=scrap.description , image_field=scrap.imgsrc)
+                user = request.user
+                k=k+1
+                for tag in scrap.tags:
+                    discoverbookmark.tags.add(tag)
+                discoverbookmark.save()
     return render(request, 'bookmarksection/bookmark.html',context)
 
+def discoverbookmark_list(request):
+    allBookmarks = Bookmark.objects.all()
+    allDiscoverBookmarks = DiscoverBookmark.objects.all()
+    allTimelines = Timeline.objects.all()
+    friends_one = Friend.objects.filter(friend=request.user).filter(status='friend')
+    friends_two = Friend.objects.filter(user=request.user).filter(status='friend')
+    friends_list_one = list(friends_one.values_list('user_id', flat=True))
+    friends_list_two = list(friends_two.values_list('friend_id', flat=True))
+    friends_list_id = friends_list_one + friends_list_two + [request.user.id]
+    friends = friends_one.union(friends_two)
+    context2 = {'allDiscoverBookmarks' : allDiscoverBookmarks, 'friends': friends, 'allTimelines':allTimelines}
+    return render(request, 'bookmarksection/discoverbookmark.html', context2)
+
+    
 
 def search_index(request):
     query = request.GET['query']
@@ -71,6 +110,29 @@ class BookmarkAPIView(APIView):
     def post(self, request):
         url =  request.data['url_field']
 
+        scrap = discoverScraper(url)
+      
+        
+        data = {'url_field':url,'description':scrap.description,'title_name' : scrap.title,'image_field':scrap.imgsrc}
+        
+        
+        serializer = BookmarkSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DiscoverBookmarkAPIView(APIView):
+
+    def get(self, request):
+        bookmarks = DiscoverBookmark.objects.all()
+        serializer = BookmarkSerializer(bookmarks, many = True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        url =  request.data['url_field']
+
         scrap = scraper(url)
       
         
@@ -83,7 +145,6 @@ class BookmarkAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
 
 class BookmarkDetail(APIView):
     """
@@ -93,6 +154,34 @@ class BookmarkDetail(APIView):
         try:
             return Bookmark.objects.get(pk=pk)
         except Bookmark.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        bookmark = self.get_object(pk)
+        serializer = BookmarkSerializer(bookmark)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        bookmark = self.get_object(pk)
+        serializer = BookmarkSerializer(bookmark, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        bookmark = self.get_object(pk)
+        bookmark.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class DiscoverBookmarkDetail(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return DiscoverBookmark.objects.get(pk=pk)
+        except DiscoverBookmark.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
